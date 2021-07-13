@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Switch, NavLink } from 'react-router-dom';
 import SignUp from './containers/Auth/SignUp';
 import SignIn from './containers/Auth/SignIn';
-import './App.css';
 
 function App() {
   return (
