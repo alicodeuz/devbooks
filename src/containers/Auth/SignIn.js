@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect, useState, useMemo, useRef } from 'react';
-import { useHistory, Link, Prompt } from 'react-router-dom';
+import { useHistory, useLocation, useParams, Link, Prompt } from 'react-router-dom';
 import { StyledButton, StyledInput } from '../../style/UI';
 import StyledSignIn from '../../style/auth';
 import columnImage from '../../assets/images/auth/login.svg';
+import Axios from '../../utils/axios';
 
 export default function SignIn(props) {
   const [state, setState] = useState({
-    email: '',
-    password: '',
+    email: 'aka@mail.ru',
+    password: '123456',
   });
 
+  const [errorMsg, setErrorMsg] = useState('');
+  const history = useHistory();
   const emailRef = useRef();
   const [visible, setVisible] = useState(null);
 
@@ -18,6 +21,22 @@ export default function SignIn(props) {
     setState(prevState => ({ ...state, [name]: value }));
 
   }, [state]);
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await Axios.post('/api/login', state);
+      console.log(data)
+      if (!data.success) {
+        return setErrorMsg(data.msg);
+      }
+      // Store user data and redirect
+      history.push('/')
+    }
+    catch (err) {
+      console.log(err.response);
+    }
+  }
 
   return (
     <StyledSignIn>
@@ -31,7 +50,7 @@ export default function SignIn(props) {
           {visible ? 'Turn off' : 'Turn on'}
         </button>
 
-        <form action="" className="form" autoComplete="off">
+        <form onSubmit={handleSignIn} className="form" autoComplete="off">
           <StyledInput type="email" hidden name="email" />
           <StyledInput type="password" hidden name="password" />
 

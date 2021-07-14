@@ -29,11 +29,9 @@ export default function SignUp(props) {
     e.preventDefault();
     try {
       const { data } = await axios.post('http://book.alitechbot.uz/api/sign-up', state);
-      console.log(data);
       if (data.success) {
         localStorage.setItem('token', data.token);
       } else {
-        console.log('Set error', data)
         const msg = handleErrorObject(data?.msg);
         setErrors(msg);
       }
@@ -44,7 +42,6 @@ export default function SignUp(props) {
       setErrors(msg);
     }
   }
-  console.log('My Erors', errors);
 
   const handleErrorObject = (errorMsg = '') => {
     if (errorMsg.includes('E11000')) {
