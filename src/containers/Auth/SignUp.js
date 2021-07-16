@@ -1,12 +1,15 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useContext } from 'react';
 import { Link, } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../utils/axios';
 import { StyledButton, StyledInput } from '../../style/UI';
 import StyledSignIn from '../../style/auth';
 import columnImage from '../../assets/images/auth/login.svg';
 import InputErrorMessages from '../../components/InputErrorMessages';
+import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/all';
+import AuthContext from '../../context/AuthContext';
 
 export default function SignUp(props) {
+  const context = useContext(AuthContext);
   const [state, setState] = useState({
     phone: "",
     email: "",
@@ -28,9 +31,12 @@ export default function SignUp(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post('http://book.alitechbot.uz/api/sign-up', state);
+      const { data } = await axios.post('/sign-up', state);
       if (data.success) {
+        // Store user data and redirect
         localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        context.setAuthDetails(data);
       } else {
         const msg = handleErrorObject(data?.msg);
         setErrors(msg);
@@ -66,9 +72,6 @@ export default function SignUp(props) {
       <div className="col-right">
         <h2>Sign Up</h2>
         <p>Do not you have an account? <Link to="/sign-in">Sign in</Link> </p>
-        <button onClick={() => setVisible(state => !state)}>
-          {visible ? 'Turn off' : 'Turn on'}
-        </button>
 
         <form action="" onSubmit={handleSubmit} className="form" autoComplete="off">
           <StyledInput type="email" hidden name="email" />
@@ -125,17 +128,24 @@ export default function SignUp(props) {
           <div className="form__input-wrapper">
             <InputErrorMessages type="password" errorObj={errors} />
             <StyledInput
-              type="password"
+              type={visible ? 'text' : 'password'}
               name="password"
               value={state.password}
               onChange={handleInputChange}
               placeholder="Your password"
               autoComplete="new-password"
             />
+            <button
+              type="button"
+              className="password-visible"
+              onClick={() => setVisible(state => !state)}
+            >
+              {visible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+            </button>
           </div>
           <div className="form__input-wrapper justify-center d-flex">
             <StyledButton
-              className="main"
+              className="main w-100"
               type="submit"
               size="lg"
             >

@@ -39,6 +39,7 @@ const StyledInput = styled.input`
   border-radius: 10px;
   height: 46px;
   min-width: 300px;
+  padding: 5px 30px 5px 15px;
 `;
 
 export { StyledButton, StyledInput };

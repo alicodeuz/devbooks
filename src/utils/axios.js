@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const Axios = axios.create({
-  baseURL: 'https://book.alitechbot.uz/api/',
+  baseURL: '/api/',
   timeout: 10000
 });
 

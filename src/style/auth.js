@@ -43,4 +43,15 @@ export default styled.section`
     }
 
   }
+
+  .password-visible {
+    position: absolute;
+    right: 5px;
+    border: none;
+    background: transparent;
+    top: 23px;
+    transform: translateY(-50%);
+    font-size: 24px;
+    cursor: pointer;
+  }
 `;

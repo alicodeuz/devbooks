@@ -39,5 +39,5 @@ export default createGlobalStyle`
   .justify-start {
     justify-content: flex-start;
   }
-
+  
 `
