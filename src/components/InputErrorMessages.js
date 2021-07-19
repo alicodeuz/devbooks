@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function InputErrorMessages({ type, errorObj }) {
-  console.log(type, errorObj)
   if (type !== errorObj.type) {
     return null
   };
@@ -11,4 +11,9 @@ export default function InputErrorMessages({ type, errorObj }) {
       {errorObj.message}
     </div>
   )
+}
+
+InputErrorMessages.propTypes = {
+  type: PropTypes.string,
+  errorObj: PropTypes.object,
 }

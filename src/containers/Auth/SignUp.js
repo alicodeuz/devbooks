@@ -7,6 +7,7 @@ import columnImage from '../../assets/images/auth/login.svg';
 import InputErrorMessages from '../../components/InputErrorMessages';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/all';
 import AuthContext from '../../context/AuthContext';
+import Loader from '../../components/Loader';
 
 export default function SignUp(props) {
   const context = useContext(AuthContext);
@@ -70,6 +71,7 @@ export default function SignUp(props) {
       </div>
 
       <div className="col-right">
+        <Loader loading={true}/>
         <h2>Sign Up</h2>
         <p>Do not you have an account? <Link to="/sign-in">Sign in</Link> </p>
 
@@ -78,7 +80,7 @@ export default function SignUp(props) {
           <StyledInput type="password" hidden name="password" />
 
           <div className="form__input-wrapper">
-            <InputErrorMessages type="firstName" errorObj={errors} />
+            <InputErrorMessages errorObj={errors} />
             <StyledInput
               type="text"
               name="firstName"
