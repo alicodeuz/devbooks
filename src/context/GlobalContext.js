@@ -1,6 +1,11 @@
 import { createContext } from 'react';
 
-const initialState = { lang: 'uz' };
+export const initialState = {
+  user: { lang: 'uz' },
+  token: '',
+  setLang: () => { },
+  setAuthDetails: () => { },
+};
 const GlobalContext = createContext(initialState);
 
 export default GlobalContext;

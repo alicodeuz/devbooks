@@ -5,10 +5,10 @@ import StyledSignIn from '../../style/auth';
 import columnImage from '../../assets/images/auth/login.svg';
 import Axios from '../../utils/axios';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/all';
-import AuthContext from '../../context/AuthContext';
+import GlobalContext from '../../context/GlobalContext';
 
 export default function SignIn(props) {
-  const context = useContext(AuthContext);
+  const context = useContext(GlobalContext);
   const [state, setState] = useState({
     email: 'aka@mail.ru',
     password: '123456',

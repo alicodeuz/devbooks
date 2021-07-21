@@ -4,13 +4,18 @@ import SignUp from './containers/Auth/SignUp';
 import SignIn from './containers/Auth/SignIn';
 import Home from './containers/Home';
 import NotFoundPage from './components/NotFoundPage';
-import AuthContext from './context/AuthContext';
+import GlobalContext from './context/GlobalContext';
 import Authors from './containers/Authors';
 import BookView from './containers/Books/BookView';
+import ErrorBoundry from './components/ErrorBoundry';
+import Loader from './components/Loader';
+import Header from './containers/Header';
 
 const initialState = {
   token: null,
-  user: {},
+  user: {
+    lang: 'uz'
+  },
 };
 
 const defaultUser = {
@@ -22,12 +27,13 @@ const defaultUser = {
 function App() {
   const [authDetails, setAuthDetails] = useState(initialState);
   const token = authDetails.token;
-  const location = useLocation();
+  const [lang, setLang] = useState('uz');
 
-  const handleSignOut = () => {
-    localStorage.clear();
-    setAuthDetails(initialState);
+  const handleLanguage = (lang) => {
+    setLang(lang)
   };
+
+  const location = useLocation();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.user || "{}");
@@ -43,41 +49,52 @@ function App() {
 
   const canRedirectToHome = location.pathname === '/sign-in' || location.pathname === '/sign-up';
 
+  const contextValue = {
+    token: authDetails.token,
+    user: authDetails.user,
+    setLang,
+    setAuthDetails,
+  }
+
   if (token) {
     return (
-      <AuthContext.Provider value={{}}>
-        <div className="App">
-          <header>
-            <NavLink exact to="/">Home</NavLink>
-            <NavLink exact to="/authors">Authors</NavLink>
+      <ErrorBoundry hideMessage={false}>
+        <GlobalContext.Provider value={contextValue}>
+          <div className="App">
+            <Header />
+            {/* <header>
+              <NavLink exact to="/">Home</NavLink>
+              <NavLink exact to="/authors">Authors</NavLink>
 
-            <button onClick={handleSignOut}>Sign Out</button>
-          </header>
-          {
-            canRedirectToHome ? <Redirect from={["/sign-in", '/sign-up']} to="/" /> : null
-          }
-          <div className="container">
-            <Switch>
-              <Route component={Home} exact path={["/", '/books']} />
-              <Route component={BookView} exact path={'/books/:id'} />
-              <Route component={Authors} exact path="/authors" />
-              <Route component={NotFoundPage} />
-            </Switch>
+              <button onClick={handleSignOut}>Sign Out</button>
+            </header> */}
+            {
+              canRedirectToHome ? <Redirect from={["/sign-in", '/sign-up']} to="/" /> : null
+            }
+            <div className="container">
+              <Switch>
+                <Route component={Home} exact path={["/", '/books']} />
+                <Route component={BookView} exact path={'/books/:id'} />
+                <Route component={Authors} exact path="/authors" />
+                <Route component={NotFoundPage} />
+              </Switch>
+            </div>
+            <Loader />
           </div>
-        </div>
-      </AuthContext.Provider>
+        </GlobalContext.Provider>
+      </ErrorBoundry>
     );
   }
 
   return (
-    <AuthContext.Provider value={{ setAuthDetails }}>
+    <GlobalContext.Provider value={{ setAuthDetails }}>
       {/* <Redirect exact to="/sign-in" /> */}
       <Switch>
         <Route component={SignIn} exact path="/sign-in" />
         <Route component={SignUp} exact path="/sign-up" />
         <Route component={SignIn} />
       </Switch>
-    </AuthContext.Provider>
+    </GlobalContext.Provider>
   )
 }
 

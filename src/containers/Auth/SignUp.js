@@ -6,11 +6,11 @@ import StyledSignIn from '../../style/auth';
 import columnImage from '../../assets/images/auth/login.svg';
 import InputErrorMessages from '../../components/InputErrorMessages';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/all';
-import AuthContext from '../../context/AuthContext';
+import GlobalContext from '../../context/GlobalContext';
 import Loader from '../../components/Loader';
 
 export default function SignUp(props) {
-  const context = useContext(AuthContext);
+  const context = useContext(GlobalContext);
   const [state, setState] = useState({
     phone: "",
     email: "",
@@ -71,7 +71,7 @@ export default function SignUp(props) {
       </div>
 
       <div className="col-right">
-        <Loader loading={true}/>
+        <Loader loading={true} />
         <h2>Sign Up</h2>
         <p>Do not you have an account? <Link to="/sign-in">Sign in</Link> </p>
 

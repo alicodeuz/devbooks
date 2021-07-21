@@ -5,7 +5,6 @@ const AddAuthor = lazy(() => import('./AddAuthor'));
 export default function Authors() {
   const [formVisible, setFormVisible] = useState(false);
 
-  console.log('changing')
   return (
     <div>
       <button
