@@ -10,6 +10,10 @@ import BookView from './containers/Books/BookView';
 import ErrorBoundry from './components/ErrorBoundry';
 import Loader from './components/Loader';
 import Header from './containers/Header';
+import withAuthDetails from './HOC/withAuthDetails';
+import ErrorMessages from './components/ErrorMessages';
+
+const HeaderWithHOC = withAuthDetails(Header, false);
 
 const initialState = {
   token: null,
@@ -60,14 +64,9 @@ function App() {
     return (
       <ErrorBoundry hideMessage={false}>
         <GlobalContext.Provider value={contextValue}>
+          <ErrorMessages message={'Hello JS'} />
           <div className="App">
-            <Header />
-            {/* <header>
-              <NavLink exact to="/">Home</NavLink>
-              <NavLink exact to="/authors">Authors</NavLink>
-
-              <button onClick={handleSignOut}>Sign Out</button>
-            </header> */}
+            <HeaderWithHOC />
             {
               canRedirectToHome ? <Redirect from={["/sign-in", '/sign-up']} to="/" /> : null
             }

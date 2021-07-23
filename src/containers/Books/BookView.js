@@ -3,7 +3,7 @@ import { StyledBookView } from './style';
 import Axios from '../../utils/axios';
 import { useParams } from 'react-router-dom';
 
-const baseUrl = 'https://book.alitechbot.uz/';
+const baseUrl = 'https://book.alitechbot.uz';
 const defaultImage = "https://cdn.pixabay.com/photo/2019/09/17/20/47/prague-4484517__480.jpg";
 
 export default function BookView() {

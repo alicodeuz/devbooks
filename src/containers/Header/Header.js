@@ -2,11 +2,10 @@ import React, { useState, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import GlobalContext, { initialState } from '../../context/GlobalContext';
 
-export default function Header(props) {
+function Header(props) {
   const context = useContext(GlobalContext);
 
   const handleLanguage = (lang) => {
-    context.setLang(lang);
     context.setAuthDetails(state => ({
       ...state,
       user: { ...state.user, lang }
@@ -18,7 +17,7 @@ export default function Header(props) {
     context.setAuthDetails(initialState)
   };
 
-
+  console.log(props)
   return (
     <header>
       <nav className="navbar container justify-content-center navbar-expand-lg navbar-light bg-light">
@@ -45,28 +44,36 @@ export default function Header(props) {
                 </select>
               </div>
               {
-                (context.token && context.user._id) ?
-                  <>
-                    <li className="nav-item">
-                      <NavLink className="nav-link" to="/profile">My account</NavLink>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={handleSignOut}
-                      >Sign Out</button>
-                    </li>
-                  </>
+                props.hide ?
+                  null
                   :
                   <>
-                    <li className="nav-item">
-                      <NavLink className="nav-link" to="/sign-in">Sign In</NavLink>
-                    </li>
-                    <li className="nav-item">
-                      <NavLink className="nav-link" to="/sign-up">Sign Up</NavLink>
-                    </li>
+                    {
+                      (context.token && context.user._id) ?
+                        <>
+                          <li className="nav-item">
+                            <NavLink className="nav-link" to="/profile">My account</NavLink>
+                          </li>
+                          <li className="nav-item">
+                            <button
+                              className="btn btn-danger btn-sm"
+                              onClick={handleSignOut}
+                            >Sign Out</button>
+                          </li>
+                        </>
+                        :
+                        <>
+                          <li className="nav-item">
+                            <NavLink className="nav-link" to="/sign-in">Sign In</NavLink>
+                          </li>
+                          <li className="nav-item">
+                            <NavLink className="nav-link" to="/sign-up">Sign Up</NavLink>
+                          </li>
+                        </>
+                    }
                   </>
               }
+
             </ul>
           </div>
         </div>
@@ -74,3 +81,6 @@ export default function Header(props) {
     </header>
   )
 }
+
+
+export default Header;

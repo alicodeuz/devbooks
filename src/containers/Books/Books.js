@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import BookItem from './BookItem';
 import Axios from '../../utils/axios';
 import StyledBooksPage from './style';
+import PropTypes from 'prop-types';
 
 
-export default function Books(props) {
+const Books = React.forwardRef((props, ref) => {
   console.log('I am book.js')
   const [books, setBooks] = useState([]);
   const fetchBooks = async () => {
@@ -25,7 +26,7 @@ export default function Books(props) {
   }, []);
 
   return (
-    <StyledBooksPage>
+    <StyledBooksPage ref={ref}>
       <div className="row gy-5 my-5">
         {
           books.map(item => (
@@ -40,4 +41,10 @@ export default function Books(props) {
       </div>
     </StyledBooksPage>
   )
+})
+
+Books.propTypes = {
+  ref: PropTypes.objectOf(PropTypes.element),
+  props: PropTypes.any
 }
+export default Books;
