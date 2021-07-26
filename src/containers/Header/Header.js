@@ -1,9 +1,15 @@
 import React, { useState, useContext } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import GlobalContext, { initialState } from '../../context/GlobalContext';
+import { clearUserAction } from '../../store/actions/userActions';
 
 function Header(props) {
   const context = useContext(GlobalContext);
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
+  console.log(user);
 
   const handleLanguage = (lang) => {
     context.setAuthDetails(state => ({
@@ -14,10 +20,9 @@ function Header(props) {
 
   const handleSignOut = () => {
     localStorage.clear();
-    context.setAuthDetails(initialState)
+    dispatch(clearUserAction());
   };
 
-  console.log(props)
   return (
     <header>
       <nav className="navbar container justify-content-center navbar-expand-lg navbar-light bg-light">

@@ -16,7 +16,6 @@ export default function Home() {
       <Profiler id="books-profiler" onRender={handleOnRender}>
         <Books ref={bookRef} />
       </Profiler>
-
     </div>
   )
 }

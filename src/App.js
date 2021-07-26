@@ -12,6 +12,8 @@ import Loader from './components/Loader';
 import Header from './containers/Header';
 import withAuthDetails from './HOC/withAuthDetails';
 import ErrorMessages from './components/ErrorMessages';
+import { useDispatch } from 'react-redux';
+import { updateUserAction } from './store/actions/userActions';
 
 const HeaderWithHOC = withAuthDetails(Header, false);
 
@@ -31,6 +33,7 @@ const defaultUser = {
 function App() {
   const [authDetails, setAuthDetails] = useState(initialState);
   const token = authDetails.token;
+  const dispatch = useDispatch();
   const [lang, setLang] = useState('uz');
 
   const handleLanguage = (lang) => {
@@ -48,6 +51,8 @@ function App() {
         token,
         user: user || defaultUser
       }));
+
+      dispatch(updateUserAction({ user, token }));
     }
   }, []);
 

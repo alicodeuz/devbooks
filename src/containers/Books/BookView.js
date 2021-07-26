@@ -15,6 +15,7 @@ export default function BookView() {
   });
 
   const params = useParams();
+  console.log(params)
   const fetchBook = async () => {
     try {
       const { data } = await Axios(`/books/${params.id}`);

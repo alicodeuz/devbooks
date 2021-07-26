@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import BookItem from './BookItem';
 import Axios from '../../utils/axios';
+import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 import StyledBooksPage from './style';
 import PropTypes from 'prop-types';
 
@@ -8,6 +9,14 @@ import PropTypes from 'prop-types';
 const Books = React.forwardRef((props, ref) => {
   console.log('I am book.js')
   const [books, setBooks] = useState([]);
+  const loc = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
+
+  console.log('Location', loc);
+  console.log('History', history);
+  console.log('MAtch', match);
+
   const fetchBooks = async () => {
     try {
       const { data } = await Axios('/books');

@@ -6,9 +6,14 @@ import columnImage from '../../assets/images/auth/login.svg';
 import Axios from '../../utils/axios';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/all';
 import GlobalContext from '../../context/GlobalContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUserAction } from '../../store/actions/userActions';
 
 export default function SignIn(props) {
   const context = useContext(GlobalContext);
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
+
   const [state, setState] = useState({
     email: 'aka@mail.ru',
     password: '123456',
@@ -33,8 +38,10 @@ export default function SignIn(props) {
         return setErrorMsg(data.msg);
       }
       // Store user data and redirect
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
+      const { token, user } = data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      dispatch(updateUserAction({ user, token }));
       context.setAuthDetails(data);
     }
     catch (err) {
