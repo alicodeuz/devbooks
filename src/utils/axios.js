@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const Axios = axios.create({
   baseURL: '/api/',
-  timeout: 10000
+  timeout: 30000
 });
 
 Axios.interceptors.request.use((configs) => {
@@ -22,6 +22,7 @@ Axios.interceptors.response.use((response) => {
     localStorage.clear();
     window.location.href = '/sign-in';
   }
+  return Promise.reject(err)
 });
 
 

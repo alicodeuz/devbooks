@@ -27,23 +27,6 @@ export default styled.section`
     min-height: 100vh;
   }
 
-  .form__input-wrapper {
-    position: relative;
-    padding-bottom: 30px;
-
-    .has-error {
-      position: absolute;
-      bottom: 7px;
-      color: red;
-      font-size: 10px;
-    }
-    .has-error + input {
-      border: 1px solid red;
-      outline: none;
-    }
-
-  }
-
   .password-visible {
     position: absolute;
     right: 5px;

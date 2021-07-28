@@ -1,27 +1,23 @@
-import React, { useState, useContext } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { AiOutlinePlus } from 'react-icons/ai';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import GlobalContext, { initialState } from '../../context/GlobalContext';
-import { clearUserAction } from '../../store/actions/userActions';
+import { clearUserAction, updateLanguageAction } from '../../store/actions/userActions';
 
 function Header(props) {
-  const context = useContext(GlobalContext);
+  const store = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
-  console.log(user);
 
   const handleLanguage = (lang) => {
-    context.setAuthDetails(state => ({
-      ...state,
-      user: { ...state.user, lang }
-    }));
+    dispatch(updateLanguageAction(lang));
   }
 
   const handleSignOut = () => {
     localStorage.clear();
     dispatch(clearUserAction());
   };
+
+  console.log(store.user.lang)
 
   return (
     <header>
@@ -39,10 +35,13 @@ function Header(props) {
               <li className="nav-item">
                 <NavLink className="nav-link" to="/authors">Authors</NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/books/new"><AiOutlinePlus /> Book</NavLink>
+              </li>
             </ul>
             <ul className="navbar-nav align-center">
               <div className="nav-item">
-                <select name="lang" onChange={(e) => handleLanguage(e.target.value)} value={context.lang}>
+                <select name="lang" onChange={(e) => handleLanguage(e.target.value)} value={store.user?.lang}>
                   <option value="uz">Uzbekcha</option>
                   <option value="ru">Ruscha</option>
                   <option value="en">Englizcha</option>
@@ -54,7 +53,7 @@ function Header(props) {
                   :
                   <>
                     {
-                      (context.token && context.user._id) ?
+                      (store.token && store.user?._id) ?
                         <>
                           <li className="nav-item">
                             <NavLink className="nav-link" to="/profile">My account</NavLink>

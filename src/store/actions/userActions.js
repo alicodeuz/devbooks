@@ -7,6 +7,13 @@ export const updateUserAction = ({ user, token }) => {
   }
 }
 
+export const updateLanguageAction = (lang) => {
+  return {
+    payload: lang,
+    type: actionTypes.UPDATE_LANGUAGE,
+  }
+}
+
 export const clearUserAction = () => {
   return {
     type: actionTypes.CLEAR_USER,

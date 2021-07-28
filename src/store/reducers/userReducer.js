@@ -12,6 +12,15 @@ const userReducer = (state = initialState, action) => {
     case actionTypes.UPDATE_USER: {
       return { ...state, user, token }
     }
+    case actionTypes.UPDATE_LANGUAGE: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          lang: action.payload
+        }
+      };
+    }
     case actionTypes.CLEAR_USER: {
       return initialState;
     }

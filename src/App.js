@@ -14,6 +14,8 @@ import withAuthDetails from './HOC/withAuthDetails';
 import ErrorMessages from './components/ErrorMessages';
 import { useDispatch } from 'react-redux';
 import { updateUserAction } from './store/actions/userActions';
+import { useSelector } from 'react-redux';
+import AddBook from './containers/Books/AddBook';
 
 const HeaderWithHOC = withAuthDetails(Header, false);
 
@@ -31,74 +33,45 @@ const defaultUser = {
 }
 
 function App() {
-  const [authDetails, setAuthDetails] = useState(initialState);
-  const token = authDetails.token;
   const dispatch = useDispatch();
-  const [lang, setLang] = useState('uz');
-
-  const handleLanguage = (lang) => {
-    setLang(lang)
-  };
+  const { token, user } = useSelector(state => state.user);
+  console.log(token, user)
 
   const location = useLocation();
-
-  useEffect(() => {
-    const user = JSON.parse(localStorage.user || "{}");
-    const token = localStorage.getItem('token');
-    if (token) {
-      setAuthDetails(state => ({
-        ...state,
-        token,
-        user: user || defaultUser
-      }));
-
-      dispatch(updateUserAction({ user, token }));
-    }
-  }, []);
-
   const canRedirectToHome = location.pathname === '/sign-in' || location.pathname === '/sign-up';
-
-  const contextValue = {
-    token: authDetails.token,
-    user: authDetails.user,
-    setLang,
-    setAuthDetails,
-  }
 
   if (token) {
     return (
       <ErrorBoundry hideMessage={false}>
-        <GlobalContext.Provider value={contextValue}>
-          <ErrorMessages message={'Hello JS'} />
-          <div className="App">
-            <HeaderWithHOC />
-            {
-              canRedirectToHome ? <Redirect from={["/sign-in", '/sign-up']} to="/" /> : null
-            }
-            <div className="container">
-              <Switch>
-                <Route component={Home} exact path={["/", '/books']} />
-                <Route component={BookView} exact path={'/books/:id'} />
-                <Route component={Authors} exact path="/authors" />
-                <Route component={NotFoundPage} />
-              </Switch>
-            </div>
-            <Loader />
+        <div className="App">
+          <HeaderWithHOC />
+          {
+            canRedirectToHome ? <Redirect from={["/sign-in", '/sign-up']} to="/" /> : null
+          }
+          <div className="container">
+            <Switch>
+              <Route component={Home} exact path={["/", '/books']} />
+              <Route component={AddBook} exact path={'/books/new'} />
+              <Route component={BookView} exact path={'/books/:id'} />
+              <Route component={Authors} exact path="/authors" />
+              <Route component={NotFoundPage} />
+            </Switch>
           </div>
-        </GlobalContext.Provider>
+          <Loader />
+        </div>
       </ErrorBoundry>
     );
   }
 
   return (
-    <GlobalContext.Provider value={{ setAuthDetails }}>
+    <React.Fragment>
       {/* <Redirect exact to="/sign-in" /> */}
-      <Switch>
+      < Switch >
         <Route component={SignIn} exact path="/sign-in" />
         <Route component={SignUp} exact path="/sign-up" />
         <Route component={SignIn} />
-      </Switch>
-    </GlobalContext.Provider>
+      </ Switch >
+    </React.Fragment>
   )
 }
 

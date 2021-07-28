@@ -40,4 +40,21 @@ export default createGlobalStyle`
     justify-content: flex-start;
   }
   
+  .form__input-wrapper {
+    position: relative;
+    padding-bottom: 30px;
+
+    .has-error {
+      position: absolute;
+      bottom: 7px;
+      color: red;
+      font-size: 10px;
+    }
+    .has-error + input {
+      border: 1px solid red;
+      outline: none;
+    }
+
+  }
+
 `
