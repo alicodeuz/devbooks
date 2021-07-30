@@ -2,8 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { StyledBookItem } from './style';
-
-const defaultImage = "https://cdn.pixabay.com/photo/2019/09/17/20/47/prague-4484517__480.jpg";
+import constants from '../../constants';
 
 export default function BookItem({ title, id, imageLink }) {
   const history = useHistory();
@@ -13,8 +12,8 @@ export default function BookItem({ title, id, imageLink }) {
         <img
           alt={title}
           className="card-img-top"
-          src={imageLink || defaultImage}
-          onError={e => e.target.src = defaultImage}
+          src={imageLink || constants.DEFAULT_BOOK_IMAGE}
+          onError={e => e.target.src = constants.DEFAULT_BOOK_IMAGE}
         />
         <div className="card-body">
           <h5 className="card-title">{title.length > 20 ? title.slice(0, 17) + '...' : title}</h5>
@@ -25,7 +24,7 @@ export default function BookItem({ title, id, imageLink }) {
 }
 
 BookItem.defaultProps = {
-  imageLink: defaultImage
+  imageLink: constants.DEFAULT_BOOK_IMAGE
 };
 
 BookItem.propTypes = {

@@ -5,10 +5,14 @@ import InputErrorMessages from '../../components/InputErrorMessages';
 import { StyledButton, StyledInput } from '../../style/UI';
 import { handleErrorObject } from '../../utils';
 import Axios from '../../utils/axios';
+import { getValidInputData } from '../../utils';
+import { useRef } from 'react';
 
 export default function AddBook() {
   const [errors, setErrors] = useState({});
   const [authors, setAuthors] = useState([]);
+  const fileRef = useRef();
+  const coverImageRef = useRef();
   const [state, setState] = useState({
     title: '',
     author: '',
@@ -34,14 +38,30 @@ export default function AddBook() {
   }, []);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setState(state => ({ ...state, [name]: value }));
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await Axios.post('/books', state);
+      const { link, imageLink, ...restData } = state;
+      const formDataToSubmit = getValidInputData(restData);
+
+      const formData = new FormData();
+      for (let x in formDataToSubmit) {
+        formData.append(x, formDataToSubmit[x]); // {name: '12'}
+      }
+
+      if (fileRef.current.files[0]) {
+        formData.append('link', fileRef.current.files[0])
+      }
+
+      if (coverImageRef.current.files[0]) {
+        formData.append('image', coverImageRef.current.files[0])
+      }
+
+      const { data } = await Axios.post('/books', formData);
       console.log(data)
     } catch (error) {
       const errorData = error.response.data;
@@ -154,6 +174,7 @@ export default function AddBook() {
           <StyledInput
             type="file"
             name="imageLink"
+            ref={coverImageRef}
             value={state.imageLink}
             onChange={handleInputChange}
             placeholder="imageLink"
@@ -165,6 +186,7 @@ export default function AddBook() {
           <StyledInput
             type="file"
             name="link"
+            ref={fileRef}
             value={state.link}
             onChange={handleInputChange}
             placeholder="link"

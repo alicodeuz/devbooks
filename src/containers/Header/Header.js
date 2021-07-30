@@ -56,6 +56,9 @@ function Header(props) {
                       (store.token && store.user?._id) ?
                         <>
                           <li className="nav-item">
+                            <NavLink className="nav-link" to="/books/my-books">My Books</NavLink>
+                          </li>
+                          <li className="nav-item">
                             <NavLink className="nav-link" to="/profile">My account</NavLink>
                           </li>
                           <li className="nav-item">

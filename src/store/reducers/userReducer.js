@@ -9,7 +9,8 @@ const userReducer = (state = initialState, action) => {
   const { user, token } = { ...action?.payload };
 
   switch (action.type) {
-    case actionTypes.UPDATE_USER: {
+    case actionTypes.UPDATE_USER:
+    case actionTypes.AUTH_SIGN_UP: {
       return { ...state, user, token }
     }
     case actionTypes.UPDATE_LANGUAGE: {

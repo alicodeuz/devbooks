@@ -6,11 +6,12 @@ import StyledSignIn from '../../style/auth';
 import columnImage from '../../assets/images/auth/login.svg';
 import InputErrorMessages from '../../components/InputErrorMessages';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/all';
-import GlobalContext from '../../context/GlobalContext';
 import Loader from '../../components/Loader';
+import { useDispatch } from 'react-redux';
+import { signUpAction } from '../../store/actions/authActions';
 
 export default function SignUp(props) {
-  const context = useContext(GlobalContext);
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     phone: "",
     email: "",
@@ -35,16 +36,15 @@ export default function SignUp(props) {
       const { data } = await axios.post('/sign-up', state);
       if (data.success) {
         // Store user data and redirect
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        context.setAuthDetails(data);
+        // localStorage.setItem('token', data.token);
+        // localStorage.setItem('user', JSON.stringify(data.user));
+        dispatch(signUpAction(data));
       } else {
         const msg = handleErrorObject(data?.msg);
         setErrors(msg);
       }
     }
     catch (err) {
-      console.log(err.response)
       const msg = handleErrorObject(err.response?.data?.msg);
       setErrors(msg);
     }

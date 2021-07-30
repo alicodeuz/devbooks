@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import BookItem from './BookItem';
 import Axios from '../../utils/axios';
-import { useLocation, useHistory, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import StyledBooksPage from './style';
 import PropTypes from 'prop-types';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 
 const Books = React.forwardRef((props, ref) => {
-  console.log('I am book.js')
   const [books, setBooks] = useState([]);
-  const loc = useLocation();
-  const history = useHistory();
-  const match = useRouteMatch();
-
-  console.log('Location', loc);
-  console.log('History', history);
-  console.log('MAtch', match);
 
   const fetchBooks = async () => {
     try {
@@ -36,18 +29,30 @@ const Books = React.forwardRef((props, ref) => {
 
   return (
     <StyledBooksPage ref={ref}>
-      <div className="row gy-5 my-5">
-        {
-          books.map(item => (
-            <BookItem
-              key={item._id}
-              id={item._id}
-              title={item.title}
-              imageLink={item.imageLink}
-            />
-          )
-          )}
-      </div>
+
+      {
+        !books.length ?
+          <div className="p-5 container bg-light my-5 text-center">
+            <h2 className="display-6">Ad your first book</h2>
+            <Link to="/books/new" className="btn btn-primary">
+              <AiOutlinePlus />
+              Add
+            </Link>
+          </div>
+          :
+          <div className="row gy-5 my-5">
+            {
+              books.map(item => (
+                <BookItem
+                  key={item._id}
+                  id={item._id}
+                  title={item.title}
+                  imageLink={item.imageLink}
+                />
+              )
+              )}
+          </div>
+      }
     </StyledBooksPage>
   )
 })

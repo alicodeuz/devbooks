@@ -1,7 +1,8 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import userReducer from './reducers/userReducer';
+import logger from 'redux-logger';
 
 // Configure persisted store with localstorage property name
 const persistConfig = {
@@ -16,7 +17,7 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-const store = createStore(persistedReducer);
+const store = createStore(persistedReducer, applyMiddleware(logger));
 const persistor = persistStore(store);
 
 export { store as default, persistor }

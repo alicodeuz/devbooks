@@ -46,8 +46,12 @@ export default function SignIn(props) {
     }
     catch (err) {
       console.log(err.response);
+
+      setErrorMsg(err.response.data.msg);
     }
   }
+
+  console.log(errorMsg)
 
   return (
     <StyledSignIn>
@@ -57,7 +61,7 @@ export default function SignIn(props) {
       <div className="col-right">
         <h2>Sign In</h2>
         <p>Do not you have an account? <Link to="/sign-up">Sign up</Link> </p>
-
+        {errorMsg && <h5 className="alert alert-danger alert-sm">{errorMsg}</h5>}
         <form onSubmit={handleSignIn} className="form" autoComplete="off">
           <StyledInput type="email" hidden name="email" />
           <StyledInput type="password" hidden name="password" />

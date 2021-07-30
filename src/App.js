@@ -16,6 +16,8 @@ import { useDispatch } from 'react-redux';
 import { updateUserAction } from './store/actions/userActions';
 import { useSelector } from 'react-redux';
 import AddBook from './containers/Books/AddBook';
+import MyBooks from './containers/Books/MyBooks';
+import AddAuthor from './containers/Authors/AddAuthor';
 
 const HeaderWithHOC = withAuthDetails(Header, false);
 
@@ -52,8 +54,10 @@ function App() {
             <Switch>
               <Route component={Home} exact path={["/", '/books']} />
               <Route component={AddBook} exact path={'/books/new'} />
+              <Route component={MyBooks} exact path={'/books/my-books'} />
               <Route component={BookView} exact path={'/books/:id'} />
               <Route component={Authors} exact path="/authors" />
+              <Route component={AddAuthor} exact path="/authors/new" />
               <Route component={NotFoundPage} />
             </Switch>
           </div>
