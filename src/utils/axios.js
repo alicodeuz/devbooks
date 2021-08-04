@@ -1,4 +1,6 @@
 import axios from 'axios';
+import store from '../store';
+import { CLEAR_USER } from '../store/actionTypes';
 
 const Axios = axios.create({
   baseURL: '/api/',
@@ -6,7 +8,7 @@ const Axios = axios.create({
 });
 
 Axios.interceptors.request.use((configs) => {
-  const token = localStorage.getItem('token');
+  const token = store.getState().user.token || localStorage.getItem('token') || '';
   configs.headers.Authorization = token ? `Berear ${token}` : '';
   configs.headers.language = 'uz';
   return configs;
@@ -19,8 +21,8 @@ Axios.interceptors.response.use((response) => {
 }, (err) => {
   console.log(err.response);
   if (err.response.status === 401) {
-    localStorage.clear();
-    window.location.href = '/sign-in';
+    store.dispatch({ type: CLEAR_USER });
+    // window.location.href = '/sign-in';
   }
   return Promise.reject(err)
 });

@@ -15,7 +15,7 @@ export default function SignIn(props) {
   const user = useSelector(state => state.user);
 
   const [state, setState] = useState({
-    email: 'aka@mail.ru',
+    email: 'admin@mail.ru',
     password: '123456',
   });
 
@@ -46,7 +46,6 @@ export default function SignIn(props) {
     }
     catch (err) {
       console.log(err.response);
-
       setErrorMsg(err.response.data.msg);
     }
   }

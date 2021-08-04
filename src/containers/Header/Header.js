@@ -3,6 +3,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { clearUserAction, updateLanguageAction } from '../../store/actions/userActions';
+import t from '../../lang';
 
 function Header(props) {
   const store = useSelector(state => state.user);
@@ -20,23 +21,23 @@ function Header(props) {
   console.log(store.user.lang)
 
   return (
-    <header>
-      <nav className="navbar container justify-content-center navbar-expand-lg navbar-light bg-light">
+    <header className="bg-dark">
+      <nav className="navbar w-100 container justify-content-center navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
-          <NavLink className="navbar-brand" to="/">Dev Books</NavLink>
+          <NavLink className="navbar-brand" to="/">{t("Dev Books")}</NavLink>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse d-flex" id="navbarNav">
             <ul className="navbar-nav mx-auto">
               <li className="nav-item">
-                <NavLink className="nav-link active" aria-current="page" to="/">Home</NavLink>
+                <NavLink className="nav-link active" aria-current="page" to="/">{t("Home")}</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/authors">Authors</NavLink>
+                <NavLink className="nav-link" to="/authors">{t("Authors")}</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/books/new"><AiOutlinePlus /> Book</NavLink>
+                <NavLink className="nav-link" to="/books/new"><AiOutlinePlus />{t("Book")}</NavLink>
               </li>
             </ul>
             <ul className="navbar-nav align-center">

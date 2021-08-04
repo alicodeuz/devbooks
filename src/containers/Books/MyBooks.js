@@ -69,6 +69,7 @@ const Books = React.forwardRef((props, ref) => {
                 const { title, imageLink, _id } = item;
                 return (
                   <StyledBookItem
+                    key={_id}
                     className="col-md-6 col-lg-4 col-xxl-3"
                     style={{ maxWidth: 250 }}
                   >

@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 import AddBook from './containers/Books/AddBook';
 import MyBooks from './containers/Books/MyBooks';
 import AddAuthor from './containers/Authors/AddAuthor';
+import { fetchMyBooksAction } from './store/actions/bookActions';
 
 const HeaderWithHOC = withAuthDetails(Header, false);
 
@@ -39,8 +40,13 @@ function App() {
   const { token, user } = useSelector(state => state.user);
   console.log(token, user)
 
+  useEffect(() => {
+    dispatch(fetchMyBooksAction())
+  }, [token, user]);
+
   const location = useLocation();
   const canRedirectToHome = location.pathname === '/sign-in' || location.pathname === '/sign-up';
+
 
   if (token) {
     return (
